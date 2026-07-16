@@ -1,0 +1,14 @@
+{
+  "name": "kfk",
+  "version": "0.0.1",
+  "description": "",
+  "author": "",
+  "private": true,
+  "license": "UNLICENSED",
+  "scripts": {
+    "topics:create": "node topics"
+  },
+  "dependencies": {
+    "kafkajs": "^2.2.4"
+  }
+}
