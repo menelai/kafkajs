@@ -78,9 +78,31 @@ Timeout duration was set to 1.
 ## 5. Лог srv после отправки запросов из test:
 
 ```
-START scada_value.get 14 2026-07-16T14:14:46.122Z
-START scada_value.list 17 2026-07-16T14:14:49.134Z
+START scada_value.get 10 2026-07-16T18:37:36.004Z
+START scada_value.get 15 2026-07-16T18:37:39.045Z
+START scada_value.get 18 2026-07-16T18:37:39.045Z
+START scada_value.get 1 2026-07-16T18:37:39.046Z
+START scada_value.get 19 2026-07-16T18:37:39.046Z
 ```
 
-Разница строго 3 секунды
+## 6. Лог test после отправки запросов:
 
+```javascript
+const results = await Promise.all([
+  sendRequest('scada_value.get', { id: '1' }).then(v => console.log(v, new Date)),
+  sendRequest('scada_value.get', { id: '2' }).then(v => console.log(v, new Date)),
+  sendRequest('scada_value.get', { id: '3' }).then(v => console.log(v, new Date)),
+  sendRequest('scada_value.get', { id: '4' }).then(v => console.log(v, new Date)),
+  sendRequest('scada_value.get', { id: '5' }).then(v => console.log(v, new Date)),
+]);
+```
+
+```
+{ err: null, response: { valueId: '1' } } 2026-07-16T18:37:39.033Z
+{ err: null, response: { valueId: '5' } } 2026-07-16T18:37:42.052Z
+{ err: null, response: { valueId: '2' } } 2026-07-16T18:37:42.057Z
+{ err: null, response: { valueId: '3' } } 2026-07-16T18:37:42.058Z
+{ err: null, response: { valueId: '4' } } 2026-07-16T18:37:42.058Z
+```
+
+Первый запрос как будто выполняется отдельно, затем остальные 4 одновременно
